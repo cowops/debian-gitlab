@@ -1,0 +1,9 @@
+---
+- name: start gitlab-{{gitlab.edition}}
+  shell: sudo gitlab-ctl start
+
+- name: stop gitlab-{{gitlab.edition}}
+  shell: sudo gitlab-ctl stop
+
+- name: restart gitlab-{{gitlab.edition}}
+  shell: sudo gitlab-ctl restart

@@ -1,0 +1,31 @@
+---
+- name: install gitlab-{{gitlab.edition}} dependencies packages
+  apt:
+    name: "{{ packages }}"
+    state: latest
+  vars:
+    packages:
+      - curl
+      - openssh-server
+      - ca-certificates
+      - postfix
+
+- name: get gitlab-{{gitlab.edition}} installer
+  get_url: url=https://packages.gitlab.com/install/repositories/gitlab/gitlab-{{gitlab.edition}}/script.deb.sh dest=/tmp/install_gitlab-{{gitlab.edition}}.sh mode="a+x"
+
+- name: install gitlab-{{gitlab.edition}}
+  shell: /tmp/install_gitlab-{{gitlab.edition}}.sh
+
+- name: install gitlab-{{gitlab.edition}} package
+  apt:
+    name: "{{ packages }}"
+    state: latest
+  vars:
+    packages:
+      - gitlab-{{gitlab.edition}}
+
+- name: configure gitlab-{{gitlab.edition}}
+  shell: gitlab-ctl reconfigure
+
+- name: show gitlab-{{gitlab.edition}} credentials
+  debug: msg="Default credientials are root / 5iveL!fe"
